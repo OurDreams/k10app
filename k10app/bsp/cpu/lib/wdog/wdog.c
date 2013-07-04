@@ -45,7 +45,7 @@ void wdog_unlock(void)
 	/* This sequence must execute within 20 clock cycles, so disable
          * interrupts will keep the code atomic and ensure the timing.
          */
-        DisableInterrupts;
+//        DisableInterrupts; todo
 	
 	/* Write 0xC520 to the unlock register */
 	WDOG_UNLOCK = 0xC520;
@@ -54,6 +54,6 @@ void wdog_unlock(void)
 	WDOG_UNLOCK = 0xD928;
 	
 	/* Re-enable interrupts now that we are done */	
-       	EnableInterrupts;
+//       	EnableInterrupts; todo
 }
 /********************************************************************/

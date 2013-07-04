@@ -13,8 +13,12 @@
 **********************************************************************************/	
 
 #include <MK10DZ10.h>
-#include "uart.h"
-#include "assert.h"
+#include <uart.h>
+#include <fire_drivers_cfg.h>
+
+extern uint32_t core_clk_khz;
+extern uint32_t core_clk_mhz;
+extern uint32_t bus_clk_khz;
 
 volatile struct UART_MemMap *UARTx[6]={UART0_BASE_PTR,UART1_BASE_PTR,UART2_BASE_PTR,UART3_BASE_PTR,UART4_BASE_PTR,UART5_BASE_PTR}; //定义五个指针数组保存 UARTx 的地址
 
@@ -31,8 +35,8 @@ volatile struct UART_MemMap *UARTx[6]={UART0_BASE_PTR,UART1_BASE_PTR,UART2_BASE_
 *************************************************************************/
 void uart_init (UARTn uratn, uint32_t baud)
 {
-    register uint16 sbr, brfa;
-    uint8 temp;
+    register uint16_t sbr, brfa;
+    uint8_t temp;
     uint32_t sysclk;     //时钟
 
     /* 配置 UART功能的 GPIO 接口 开启时钟 */
@@ -48,7 +52,7 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART0_RX==PTD7)
             PORTD_PCR7 = PORT_PCR_MUX(0x3);      //在PTD7上使能UART0_RXD
         else
-            assert_failed(__FILE__, __LINE__);   //设置管脚有误？
+//            assert_failed(__FILE__, __LINE__);   //设置管脚有误？
 
         if(UART0_TX==PTA2)
             PORTA_PCR2 = PORT_PCR_MUX(0x2);     //在PTA2上使能UART0_RXD
@@ -59,7 +63,7 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART0_TX==PTD6)
             PORTD_PCR6 = PORT_PCR_MUX(0x3);     //在PTD6上使能UART0_RXD
         else
-            assert_failed(__FILE__, __LINE__);  //设置管脚有误？
+//            assert_failed(__FILE__, __LINE__);  //设置管脚有误？
 
 
         SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;      //使能 UARTn 时钟
@@ -171,7 +175,7 @@ void uart_init (UARTn uratn, uint32_t baud)
     temp = UART_BDH_REG(UARTx[uratn]) & ~(UART_BDH_SBR(0x1F));
 
     UART_BDH_REG(UARTx[uratn]) = temp |  UART_BDH_SBR(((sbr & 0x1F00) >> 8));
-    UART_BDL_REG(UARTx[uratn]) = (u8)(sbr & UART_BDL_SBR_MASK);
+    UART_BDL_REG(UARTx[uratn]) = (uint8_t)(sbr & UART_BDL_SBR_MASK);
 
     //brfa = (((sysclk*32)/(baud * 16)) - (sbr * 32));
     brfa = (((sysclk<<5)/(baud <<4)) - (sbr <<5));
@@ -270,7 +274,7 @@ void uart_putchar (UARTn uratn, char ch)
     //等待发送缓冲区空
     while(!(UART_S1_REG(UARTx[uratn]) & UART_S1_TDRE_MASK));
     //发送数据
-    UART_D_REG(UARTx[uratn]) = (u8)ch;
+    UART_D_REG(UARTx[uratn]) = (uint8_t)ch;
 }
 
 
@@ -303,7 +307,7 @@ int uart_query (UARTn uratn)
 *  修改时间：2012-1-20
 *  备    注：
 *************************************************************************/
-void uart_sendN (UARTn uratn,uint8* buff,uint16 len)
+void uart_sendN (UARTn uratn,uint8_t* buff,uint16_t len)
 {
     int i;
     for(i=0;i<len;i++)
@@ -323,7 +327,7 @@ void uart_sendN (UARTn uratn,uint8* buff,uint16 len)
 *  修改时间：2012-1-20
 *  备    注：
 *************************************************************************/
-void uart_sendStr (UARTn uratn,const u8* str)
+void uart_sendStr (UARTn uratn,const uint8_t* str)
 {
     while(*str)
     {

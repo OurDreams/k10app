@@ -61,12 +61,12 @@ typedef enum clk_option
 //时钟分频因子
 struct mcg_div
 {
-  u8 prdiv;       //外部晶振分频因子选项
-  u8 vdiv;        //外部晶振倍频因子选项
-  u8 core_div;    //内核时钟分频因子
-  u8 bus_div;     //总线时钟分频因子
-  u8 flex_div;    //flex时钟分频因子
-  u8 flash_div;   //flash时钟分频因子
+  uint8_t prdiv;       //外部晶振分频因子选项
+  uint8_t vdiv;        //外部晶振倍频因子选项
+  uint8_t core_div;    //内核时钟分频因子
+  uint8_t bus_div;     //总线时钟分频因子
+  uint8_t flex_div;    //flex时钟分频因子
+  uint8_t flash_div;   //flash时钟分频因子
 };
 
 extern struct mcg_div  mcg_div;
@@ -78,7 +78,7 @@ unsigned char pll_init(clk_option);         //锁相环初始化
 
 /********************** 内部用 或 不常用  **************************/
 
-void set_sys_dividers(uint32 outdiv1, uint32 outdiv2, uint32 outdiv3, uint32 outdiv4);
+void set_sys_dividers(uint32_t outdiv1, uint32_t outdiv2, uint32_t outdiv3, uint32_t outdiv4);
 
 
 

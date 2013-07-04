@@ -69,7 +69,8 @@
 #endif /* (defined(MCU_ACTIVE)) */
 #define MCU_ACTIVE
 
-#include <stdint.h>
+//#include <stdint.h>
+#include <types.h>
 
 /** Memory map version 1.1 */
 #define MCU_MEM_MAP_VERSION 0x0101u

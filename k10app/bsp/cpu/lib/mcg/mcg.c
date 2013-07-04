@@ -15,12 +15,15 @@
 #include <MK10DZ10.h>
 #include "mcg.h"
 #include "mcg_cfg.h"
-#include "../fire_drivers_cfg.h"
+#include "fire_drivers_cfg.h"
+#include <k60_fire.h>
+
+#define __ramfunc
 
 //时钟参数，便于外部调用
-extern uint32_t_t core_clk_khz;
-extern uint32_t_t core_clk_mhz;
-extern uint32_t_t bus_clk_khz;
+extern uint32_t core_clk_khz;
+extern uint32_t core_clk_mhz;
+extern uint32_t bus_clk_khz;
 
 //时钟分频因子
 struct mcg_div mcg_div = { PRDIV , VDIV , CORE_DIV , BUS_DIV , FLEX_DIV , FLASH_DIV }; //定义的同时，初始化
@@ -139,7 +142,7 @@ unsigned char pll_init(clk_option opt)
         else                              mcg_div.flash_div =15; // flash  = MCG/16
 
     }
-    pll_freq = (uint8_t_t)(( (uint16_t)50 * (uint16_t)( mcg_div.vdiv + 24 ))/ (uint16_t)( mcg_div.prdiv +1 ) );              //  50/ ( prdiv +1 ) * ( mcg_div.vdiv + 24 )
+    pll_freq = (uint8_t)(( (uint16_t)50 * (uint16_t)( mcg_div.vdiv + 24 ))/ (uint16_t)( mcg_div.prdiv +1 ) );              //  50/ ( prdiv +1 ) * ( mcg_div.vdiv + 24 )
 
     //上电复位后，单片机会自动进入 FEI 模式，使用 内部参考时钟
     //为了使用外部时钟参考源，我们要先进入 FBE 模式:

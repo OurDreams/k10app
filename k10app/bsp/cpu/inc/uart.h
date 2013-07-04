@@ -30,7 +30,7 @@ extern volatile struct UART_MemMap *UARTx[6];
 
 
 
-void uart_init (UARTn,u32 baud);                      //初始化uartx模块
+void uart_init (UARTn,uint32_t baud);                      //初始化uartx模块
 
 char uart_getchar   (UARTn);                          //无限等待接受1个字节
 char uart_pendchar  (UARTn,char * ch);                //有限时间等待接收一个字符
@@ -39,8 +39,8 @@ char uart_pendstr   (UARTn,char * str);               //有限时间等待接收字符串
 int uart_query      (UARTn);                          //查询是否接收到一个字节
 
 void uart_putchar   (UARTn, char ch);                    //发送1个字节
-void uart_sendN     (UARTn ,uint8* buff,uint16 len);  //发送n个字节
-void uart_sendStr   (UARTn ,const u8* str);           //发送字符串
+void uart_sendN     (UARTn ,uint8_t* buff,uint16_t len);  //发送n个字节
+void uart_sendStr   (UARTn ,const uint8_t* str);           //发送字符串
 
 
 void uart_irq_EN    (UARTn);                          //开串口接收中断

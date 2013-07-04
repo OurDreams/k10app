@@ -17,6 +17,8 @@
 #include <intLib.h>
 #include <gpio.h>
 #include <MK10DZ10.h>
+#include <k60_fire.h>
+#include <uart.h>
 
 #if (BOARD_BUILD_VER == BOARD_MK10D)
 
@@ -51,39 +53,6 @@ uint32_t bus_clk_khz;        //外围总线时钟
 /*-----------------------------------------------------------------------------
  Section: Function Definitions
  ----------------------------------------------------------------------------*/
-//-------------------------------------------------------------------------*
-//函数名: trace_clk_init                                                   *
-//功  能: 跟踪时钟初始化                                                   *
-//参  数: 无                                  *
-//返  回: 无                                                               *
-//说  明: 用于调试                                                         *
-//-------------------------------------------------------------------------*
-void trace_clk_init(void)
-{
-    /* Set the trace clock to the core clock frequency */
-    SIM_SOPT2 |= SIM_SOPT2_TRACECLKSEL_MASK;
-
-    /* Enable the TRACE_CLKOUT pin function on PTA6 (alt7 function) */
-    PORTA_PCR6 = ( PORT_PCR_MUX(0x7));
-}
-/********************************************************************/
-
-//-------------------------------------------------------------------------*
-//函数名: fb_clk_init                                                      *
-//功  能: FlexBus时钟初始化                                                *
-//参  数: 无                                  *
-//返  回: 无                                                               *
-//说  明:                                                                  *
-//-------------------------------------------------------------------------*
-void fb_clk_init(void)
-{
-    /* Enable the clock to the FlexBus module */
-    SIM_SCGC7 |= SIM_SCGC7_FLEXBUS_MASK;
-
-    /* Enable the FB_CLKOUT function on PTC3 (alt5 function) */
-    PORTC_PCR3 = ( PORT_PCR_MUX(0x5));
-}
-
 void
 mcuClkSetup(void)
 {
