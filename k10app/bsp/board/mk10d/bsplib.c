@@ -91,7 +91,7 @@ uint32_t bus_clk_khz;        //外围总线时钟
 void
 mcuClkSetup(void)
 {
-    wdog_disable();
+//    wdog_disable();
     /* 使能所有端口PORT时钟   */
     SIM_SCGC5 |= (SIM_SCGC5_PORTA_MASK
                   | SIM_SCGC5_PORTB_MASK
