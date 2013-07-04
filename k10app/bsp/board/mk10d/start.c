@@ -7,7 +7,6 @@
 #include <MK10DZ10.h>
 #include "start.h"
 #include "wdog.h"
-#include "sysinit.h"
 
 
 /********************************************************************/

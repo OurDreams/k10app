@@ -46,6 +46,7 @@ void wdog_unlock(void)
          * interrupts will keep the code atomic and ensure the timing.
          */
 //        DisableInterrupts; todo
+    asm(" CPSID i");
 	
 	/* Write 0xC520 to the unlock register */
 	WDOG_UNLOCK = 0xC520;
@@ -55,5 +56,6 @@ void wdog_unlock(void)
 	
 	/* Re-enable interrupts now that we are done */	
 //       	EnableInterrupts; todo
+	asm(" CPSIE i");
 }
 /********************************************************************/

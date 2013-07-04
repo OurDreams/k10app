@@ -55,7 +55,7 @@
 void
 usrapp_init(void)
 {
-    led_task_init();
+//    led_task_init();
     return;
 }
 

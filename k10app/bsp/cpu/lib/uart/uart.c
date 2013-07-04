@@ -52,7 +52,8 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART0_RX==PTD7)
             PORTD_PCR7 = PORT_PCR_MUX(0x3);      //在PTD7上使能UART0_RXD
         else
-//            assert_failed(__FILE__, __LINE__);   //设置管脚有误？
+            ;
+//            //assert_failed(__FILE__, __LINE__);   //设置管脚有误？
 
         if(UART0_TX==PTA2)
             PORTA_PCR2 = PORT_PCR_MUX(0x2);     //在PTA2上使能UART0_RXD
@@ -63,7 +64,8 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART0_TX==PTD6)
             PORTD_PCR6 = PORT_PCR_MUX(0x3);     //在PTD6上使能UART0_RXD
         else
-//            assert_failed(__FILE__, __LINE__);  //设置管脚有误？
+            ;
+//            //assert_failed(__FILE__, __LINE__);  //设置管脚有误？
 
 
         SIM_SCGC4 |= SIM_SCGC4_UART0_MASK;      //使能 UARTn 时钟
@@ -75,14 +77,16 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART1_RX==PTE1)
             PORTE_PCR1 = PORT_PCR_MUX(0x3);     //在PTE1上使能UART1_RXD
         else
-            assert_failed(__FILE__, __LINE__);  //设置管脚有误？
+            ;
+//            //assert_failed(__FILE__, __LINE__);  //设置管脚有误？
 
         if(UART1_TX==PTC4)
             PORTC_PCR4 = PORT_PCR_MUX(0x3);     //在PTC4上使能UART1_RXD
         else if(UART1_TX==PTE0)
             PORTE_PCR0 = PORT_PCR_MUX(0x3);     //在PTE0上使能UART1_RXD
         else
-            assert_failed(__FILE__, __LINE__);  //设置管脚有误？
+            ;
+            //assert_failed(__FILE__, __LINE__);  //设置管脚有误？
 
         SIM_SCGC4 |= SIM_SCGC4_UART1_MASK;
         break;
@@ -101,7 +105,8 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART3_RX==PTE5)
             PORTE_PCR5 = PORT_PCR_MUX(0x3);      //在PTE5上使能UART3_RXD
         else
-            assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
+            ;
+            //assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
 
         if(UART3_TX==PTB11)
             PORTB_PCR11 = PORT_PCR_MUX(0x3);     //在PTB11上使能UART3_RXD
@@ -110,7 +115,8 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART3_TX==PTE4)
             PORTE_PCR4 = PORT_PCR_MUX(0x3);     //在PTE4上使能UART3_RXD
         else
-            assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
+            ;
+//            //assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
 
         SIM_SCGC4 |= SIM_SCGC4_UART3_MASK;
         break;
@@ -121,14 +127,15 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART4_RX==PTE25)
             PORTE_PCR25 = PORT_PCR_MUX(0x3);     //在PTE25上使能UART4_RXD
         else
-            assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
+            //assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
 
         if(UART4_TX==PTC15)
             PORTC_PCR15 = PORT_PCR_MUX(0x3);     //在PTC15上使能UART4_RXD
         else if(UART4_TX==PTE24)
             PORTE_PCR24 = PORT_PCR_MUX(0x3);     //在PTE24上使能UART4_RXD
         else
-            assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
+            ;
+            //assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
 
         SIM_SCGC1 |= SIM_SCGC1_UART4_MASK;
         break;
@@ -139,14 +146,15 @@ void uart_init (UARTn uratn, uint32_t baud)
         else if(UART5_RX==PTE9)
             PORTE_PCR9 = PORT_PCR_MUX(0x3);     //在PTE9上使能UART5_RXD
         else
-            assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
+            //assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
 
         if(UART5_TX==PTD9)
             PORTD_PCR9 = PORT_PCR_MUX(0x3);     //在PTD9上使能UART5_RXD
         else if(UART5_TX==PTE8)
             PORTE_PCR8 = PORT_PCR_MUX(0x3);     //在PTE8上使能UART5_RXD
         else
-            assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
+            ;
+            //assert_failed(__FILE__, __LINE__);                   //设置管脚有误？
 
         SIM_SCGC1 |= SIM_SCGC1_UART5_MASK;
         break;

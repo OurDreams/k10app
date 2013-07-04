@@ -129,6 +129,7 @@ int main(void)
 {
     /* 1. 初始化系统主频 */
     mcuClkSetup();
+    puts("hahaha Hello World!");
 
     /* 2. 初始化OS内存管理单元 */
     if (OK != memlib_init((uint32_t)&heap_low, (uint32_t)(&cstack_top - 0x200)))

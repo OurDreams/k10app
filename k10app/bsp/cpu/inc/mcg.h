@@ -1,84 +1,107 @@
-/******************** (C) COPYRIGHT 2011 野火嵌入式开发工作室 ********************
- * 文件名       ：mcg.h
- * 描述         ：锁相环头文件
+/*
+ * File:    pll_init.h
+ * Purpose: pll_driver specific declarations
  *
- * 实验平台     ：野火kinetis开发板
- * 库版本       ：
- * 嵌入系统     ：
- *
- * 作者         ：野火嵌入式开发工作室
- * 淘宝店       ：http://firestm32.taobao.com
- * 技术支持论坛 ：http://www.ourdev.cn/bbs/bbs_list.jsp?bbs_id=1008
-**********************************************************************************/	
-
+ * Notes:
+ */
 #ifndef __MCG_H__
 #define __MCG_H__
+/********************************************************************/
+
+/* For some reason CW needs to have cw.h explicitly included here for
+ * the code relocation of set_sys_dividers() to work correctly even
+ * though common.h should pull in cw.h.
+ */
+#if (defined(CW))
+	#include "cw.h"
+#endif
+
+// Constants for use in pll_init
+#define NO_OSCINIT 0
+#define OSCINIT 1
+
+#define OSC_0 0
+#define OSC_1 1
+
+#define LOW_POWER 0
+#define HIGH_GAIN 1
+
+#define CANNED_OSC  0
+#define CRYSTAL 1
+
+#define PLL_0 0
+#define PLL_1 1
+
+#define PLL_ONLY 0
+#define MCGOUT 1
+
+// MCG Mode defines
+/*
+#define FEI  1
+#define FEE  2
+#define FBI  3
+#define FBE  4
+#define BLPI 5
+#define BLPE 6
+#define PBE  7
+#define PEE  8
+*/
+
+#define BLPI 1
+#define FBI  2
+#define FEI  3
+#define FEE  4
+#define FBE  5
+#define BLPE 6
+#define PBE  7
+#define PEE  8
+
+// IRC defines
+#define SLOW_IRC 0
+#define FAST_IRC 1
 
 
-enum crystal_val
-{
-  XTAL2,
-  XTAL4,
-  XTAL6,
-  XTAL8,
-  XTAL10,
-  XTAL12,
-  XTAL14,
-  XTAL16,
-  XTAL18,
-  XTAL20,
-  XTAL22,
-  XTAL24,
-  XTAL26,
-  XTAL28,
-  XTAL30,
-  XTAL32
-};
+unsigned char fll_rtc_init(unsigned char, unsigned char);
 
 
-typedef enum clk_option
-{
-  PLLUSR      ,  //自定义设置分频系数模式，直接加载 全局变量 mcg_div 的值
-  PLL48    =48,
-  PLL50    =50,
-  PLL96    =96,
-  PLL100   =100,
-  PLL110   =110,
-  PLL120   =120,
-  PLL125   =125,
-  PLL130   =130,
-  PLL140   =140,
-  PLL150   =150,
-  PLL160   =160,
-  PLL170   =170,
-  PLL180   =180,
-  PLL200   =200,  //绝大部分芯片都成超到这个程度
-  PLL225   =225,  //不同芯片，不同板子，超频能力不一样，不一定全部都能超到这个水平
-  PLL250   =250
-}clk_option;
+// prototypes
+void rtc_as_refclk(void);
+int fee_fei(int slow_irc_freq);
+int fei_fbe(int crystal_val, unsigned char hgo_val, unsigned char erefs_val);
+int fbe_fei(int slow_irc_freq);
+int fei_fbi(int irc_freq, unsigned char irc_select);
+int fbi_fei(int slow_irc_freq);
+int fbe_pbe(int crystal_val, signed char prdiv_val, signed char vdiv_val);
+int pbe_pee(int crystal_val);
+int pee_pbe(int crystal_val);
+int pbe_fbe(int crystal_val);
+int fbe_fbi(int irc_freq, unsigned char irc_select);
+int fbi_fbe(int crystal_val, unsigned char hgo_val, unsigned char erefs_val);
+int fbi_fee(int crystal_val, unsigned char hgo_val, unsigned char erefs_val);
+int fbe_fee(int crystal_val);
+int fee_fbe(int crystal_val);
+int pbe_blpe(int crystal_val);
+int blpe_pbe(int crystal_val, signed char prdiv_val, signed char vdiv_val);
+int blpe_fbe(int crystal_val);
+int fbi_blpi(int irc_freq, unsigned char irc_select);
+int blpi_fbi(int irc_freq, unsigned char irc_select);
+int fei_fee(int crystal_val, unsigned char hgo_val, unsigned char erefs_val);
+int fee_fbi(int irc_freq, unsigned char irc_select);
+int fbe_blpe(int crystal_val);
 
+unsigned char pll_init(unsigned char clk_option, unsigned char crystal_val);
 
-//时钟分频因子
-struct mcg_div
-{
-  uint8_t prdiv;       //外部晶振分频因子选项
-  uint8_t vdiv;        //外部晶振倍频因子选项
-  uint8_t core_div;    //内核时钟分频因子
-  uint8_t bus_div;     //总线时钟分频因子
-  uint8_t flex_div;    //flex时钟分频因子
-  uint8_t flash_div;   //flash时钟分频因子
-};
+int fll_freq(int fll_ref);
+unsigned char what_mcg_mode(void);
+unsigned char atc(unsigned char irc_select, int irc_freq, int mcg_out_freq);
+void clk_monitor_0(unsigned char en_dis);
 
-extern struct mcg_div  mcg_div;
-
-
-unsigned char pll_init(clk_option);         //锁相环初始化
-
-
-
-/********************** 内部用 或 不常用  **************************/
-
-void set_sys_dividers(uint32_t outdiv1, uint32_t outdiv2, uint32_t outdiv3, uint32_t outdiv4);
+#if (defined(IAR))
+	__ramfunc void set_sys_dividers(uint32 outdiv1, uint32 outdiv2, uint32 outdiv3, uint32 outdiv4);
+#elif (defined(CW))
+	__relocate_code__ 
+	void set_sys_dividers(uint32 outdiv1, uint32 outdiv2, uint32 outdiv3, uint32 outdiv4);
+#endif	
 
 
 
