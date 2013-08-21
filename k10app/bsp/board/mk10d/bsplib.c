@@ -22,6 +22,7 @@
 #include <mcg.h>
 #include <flash.h>
 #include <flexbus.h>
+#include <wdog.h>
 
 #if (BOARD_BUILD_VER == BOARD_MK10D)
 
@@ -125,6 +126,20 @@ bspHwInit(void)
     intUnlock();
 }
 
+/**
+ ******************************************************************************
+ * @brief   0. 默认关闭看门狗
+ * @param[in]  None
+ *
+ * @retrun    None
+ ******************************************************************************
+ */
+void
+bsp_close_watchdog(void)
+{
+    wdog_disable();
+}
+
 int32_t bsp_getchar(void)
 {
     int32_t c = 0;
@@ -141,10 +156,6 @@ void bsp_putchar(char_t ch)
     uart_putchar(FIRE_PORT, ch);
 }
 
-void bsp_reboot(void)
-{
-
-}
 
 void bsp_dev_init(void)
 {
@@ -152,20 +163,6 @@ void bsp_dev_init(void)
 //    start_info();
     LPLD_Flash_Init();
     hw_flexbus_init();
-}
-
-void
-bsp_timer_start(void)
-{
-
-}
-
-uint32_t
-bsp_timer_get(void)
-{
-    uint32_t starttime_ms = 0;
-
-    return starttime_ms;
 }
 
 

@@ -16,7 +16,7 @@
 #define BOARD_BANNER        "MK10D"
 
 #define MAX_INT_COUNT        (103u)    /**< 定义中断数量 */
-#define CPU_CLOCK_HZ   (72000000u)    /**< 定义CPU的主频100MHZ */
+#define CPU_CLOCK_HZ   (72000000u)     /**< 定义CPU的主频72MHZ */
 
 #define USE_TTY                (0u)    /**< 使用TTY设备 */
 #define ROOT_STACK_SIZE     (1000u)    /**< 定义root task堆栈大小 */
