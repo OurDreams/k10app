@@ -62,11 +62,7 @@ void pit0_timer(void)
 void
 usrapp_init(void)
 {
-//    led_task_init();
-    if(1 != LPLD_PIT_Init(0, 1, pit0_timer))
-    {
-        printf("pit init error\n");
-    }
+    led_task_init();
     return;
 }
 

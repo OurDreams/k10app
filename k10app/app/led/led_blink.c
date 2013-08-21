@@ -18,6 +18,7 @@
 #include <osLib.h>
 #include <dmnLib.h>
 #include <pit.h>
+#include <led.h>
 /*-----------------------------------------------------------------------------
  Section: Type Definitions
  ----------------------------------------------------------------------------*/
@@ -64,6 +65,7 @@ static void ledTask(void *p_arg)
     uint8_t led = 0u;
 	int32_t fd = -1;
 	DMN_ID dmnid = dmn_register();
+	led_device_init();
 
 	fd = dev_open("gpio", 0);
 	if (0 >= fd)
@@ -71,20 +73,11 @@ static void ledTask(void *p_arg)
 		printf("open gpio error\n");
 //		return ;
 	}
-	if(1 != LPLD_PIT_Init(0, 1000000, pit_test))
-	{
-	    printf("pit init error\n");
-	}
-	else
-	{
-	    printf("pit init ok\n");
-	}
 	FOREVER
 	{
 		dmn_sign(dmnid);
-		dev_ioctl(fd, (led >> 2) & 0x01, (void *)(led & 0x03));
-		led++;
-		taskDelay(osClkRateGet() / 4);
+		dev_ioctl(fd, led_turn, 0);
+		taskDelay(100);
 	}
 	dev_close(fd);
 	dev_release("gpio");

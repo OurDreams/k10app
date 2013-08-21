@@ -95,7 +95,7 @@ void gpio_set (PORTx portx, uint8_t n, uint8_t data)
 *************************************************************************/
 void gpio_turn (PORTx portx, uint8_t n)
 {
-    ASSERT( n < 32u );           //使用断言检查引脚号
+//    ASSERT( n < 32u );           //使用断言检查引脚号
     GPIO_TURN(portx,n);
 }
 
