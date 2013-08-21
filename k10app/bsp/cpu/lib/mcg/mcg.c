@@ -39,7 +39,7 @@ unsigned char pll_init(unsigned char clk_option, unsigned char crystal_val)
 {
   unsigned char pll_freq;
 
-  if (clk_option > 3) {return 0;} //return 0 if one of the available options is not selected
+  if (clk_option > 4) {return 0;} //return 0 if one of the available options is not selected
   if (crystal_val > 15) {return 1;} // return 1 if one of the available crystal options is not available
 //This assumes that the MCG is in default FEI mode out of reset.
 
@@ -76,7 +76,9 @@ unsigned char pll_init(unsigned char clk_option, unsigned char crystal_val)
 // Configure PLL Ref Divider, PLLCLKEN=0, PLLSTEN=0, PRDIV=5
 // The crystal frequency is used to select the PRDIV value. Only even frequency crystals are supported
 // that will produce a 2MHz reference clock to the PLL.
-  MCG_C5 = MCG_C5_PRDIV(crystal_val); // Set PLL ref divider to match the crystal used
+
+   MCG_C5 = MCG_C5_PRDIV(crystal_val); // Set PLL ref divider to match the crystal used
+
 #endif
 
   // Ensure MCG_C6 is at the reset default of 0. LOLIE disabled, PLL disabled, clk monitor disabled, PLL VCO divider is clear
@@ -112,8 +114,17 @@ unsigned char pll_init(unsigned char clk_option, unsigned char crystal_val)
       //MCG=PLL, core = MCG, bus = MCG, FlexBus = MCG, Flash clock= MCG/2
       set_sys_dividers(0,0,0,1);
       // Set the VCO divider and enable the PLL for 48MHz, LOLIE=0, PLLS=1, CME=0, VDIV=0
-      MCG_C6 = MCG_C6_PLLS_MASK; //VDIV = 0 (x24)
+      MCG_C6 = MCG_C6_PLLS_MASK ; //VDIV = 0 (x24)
       pll_freq = 48;
+      break;
+
+   case 4:
+      // Set system options dividers
+      //MCG=PLL, core = MCG, bus = MCG, FlexBus = MCG, Flash clock= MCG/3
+      set_sys_dividers(0,1,1,2);
+      // Set the VCO divider and enable the PLL for 72MHz, LOLIE=0, PLLS=1, CME=0, VDIV=0
+      MCG_C6 = MCG_C6_PLLS_MASK | MCG_C6_VDIV(12); //VDIV = 2 (x36)
+      pll_freq = 72;
       break;
   }
   while (!(MCG_S & MCG_S_PLLST_MASK)){}; // wait for PLL status bit to set

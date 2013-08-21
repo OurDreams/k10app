@@ -33,10 +33,12 @@ volatile struct PORT_MemMap *PORTX[5]={PORTA_BASE_PTR,PORTB_BASE_PTR,PORTC_BASE_
 *************************************************************************/
 void gpio_init (PORTx portx, uint8_t n,GPIO_CFG cfg,uint8_t data)
 {
-    ASSERT( (n < 32u)  && (data < 2u) );           //使用断言检查输入、电平 是否为1bit
+//    ASSERT( (n < 32u)  && (data < 2u) );           //使用断言检查输入、电平 是否为1bit
 
     //选择功能脚 PORTx_PCRx ，每个端口都有个寄存器 PORTx_PCRx
     PORT_PCR_REG(PORTX[portx],n)=(0|PORT_PCR_MUX(1)/*|cfg*/);
+
+//    PORT_PCR_REG(PORTX[portx],n) |= (1 << 5);//开漏输出使能
 
     //端口方向控制输入还是输出
     if( ( (cfg&0x01) == GPI) || (cfg == GPI_UP) ||     (cfg == GPI_UP_PF)      )
@@ -72,7 +74,7 @@ void gpio_init (PORTx portx, uint8_t n,GPIO_CFG cfg,uint8_t data)
 *************************************************************************/
 void gpio_set (PORTx portx, uint8_t n, uint8_t data)
 {
-    ASSERT( (n < 32u)  && (data < 2u) );           //使用断言检查输入、电平 是否为1bit
+//    ASSERT( (n < 32u)  && (data < 2u) );           //使用断言检查输入、电平 是否为1bit
 
     if(data == 1)               //输出
         GPIO_SET(portx,n,1);    //GPIO_PDOR_REG(PORTx) |= (1<<n);

@@ -20,6 +20,8 @@
 #include <k60_fire.h>
 #include <uart.h>
 #include <mcg.h>
+#include <flash.h>
+#include <flexbus.h>
 
 #if (BOARD_BUILD_VER == BOARD_MK10D)
 
@@ -34,7 +36,8 @@ enum clk_option
   PLL50,
   PLL100,
   PLL96,
-  PLL48
+  PLL48,
+  PLL72
 };
 
 enum crystal_val
@@ -65,7 +68,7 @@ enum crystal_val
    */
   #define MGG_OSC_MODE        XTAL_MODE     // EXTOSC_MODE or XTAL_MODE
   #define REF_CLK             XTAL12         // see available frequencies in osc_frequency   in mcg.h
-  #define CORE_CLK_MHZ        PLL100         // see pll_options  frequencies in              in mcg.h
+  #define CORE_CLK_MHZ        PLL72         // see pll_options  frequencies in              in mcg.h
 
 
 /*-----------------------------------------------------------------------------
@@ -145,7 +148,10 @@ void bsp_reboot(void)
 
 void bsp_dev_init(void)
 {
-
+//    extern void start_info(void);
+//    start_info();
+    LPLD_Flash_Init();
+    hw_flexbus_init();
 }
 
 void

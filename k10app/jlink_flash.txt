@@ -1,7 +1,7 @@
 h
 unlock kinetis
 speed 4800
-exec device = MK10DN512xxx10
+exec device = MK10DX256xxx7
 loadbin ./Debug/k10app.bin 0x0000000
 r
 g

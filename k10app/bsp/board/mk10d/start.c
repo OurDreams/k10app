@@ -5,6 +5,8 @@
  * Notes:		
  */
 #include <MK10DZ10.h>
+#include <stdio.h>
+#include <taskLib.h>
 #include "start.h"
 #include "wdog.h"
 
@@ -17,24 +19,8 @@
  * This function calls all of the needed starup routines and then
  * branches to the main process.
  */
-void start(void)
+void start_info(void)
 {
-//#ifdef DEBUG
-    /* 关闭看门狗 */
-    wdog_disable();
-//#endif
-
-    /* 复制中断向量表、初始化数据、以__ramfunc声明的子函数复制到RAM区 */
-//    common_startup();
-
-    /* CPU初始化，设置频率 */
-    sysinit();
-
-#if (defined(DEBUG) && defined(DEBUG_PRINT))
-
-    printf("\n\n\t\t野火kinetis核心板测试程序\n");
-    printf("内核频率：%dMHz\t总线频率 ：%dMHz\nflex频率：%dMHz \tflash频率：%dMHz\n\n",\
-           core_clk_mhz,core_clk_mhz/(mcg_div.bus_div+1),core_clk_mhz/(mcg_div.flex_div+1),core_clk_mhz/(mcg_div.flash_div+1));
     /* Determine the last cause(s) of reset */
     if (MC_SRSH & MC_SRSH_SW_MASK)
         printf("Software Reset\n");
@@ -55,25 +41,9 @@ void start(void)
     if (MC_SRSL & MC_SRSL_WAKEUP_MASK)
         printf("LLWU Reset\n");	
 
-    /* 这两个数组的地址 在  链接器Linker文件，即ICF文件 定义 */
-    extern uint32 __VECTOR_TABLE[];
-    extern uint32 __VECTOR_RAM[];
-
-    /* 检测是否需要 复制中断向量表,即可以知道是ROM启动还是RAM启动*/
-    printf("\n野火Kinetis开发板启动方式：");
-    if (__VECTOR_RAM != __VECTOR_TABLE)     printf("flash启动\n");
-    else                                    printf("SRAM启动\n");
-
     /* Determine specific Kinetis device and revision */
     cpu_identify();
 
-#endif  //DUBUG && DEBUG_PRINT
-
-    /* 跳进main函数 */
-    main();
-
-    /* 保证CPU不会停止执行 */
-    while(1);
 }
 /********************************************************************/
 /*!

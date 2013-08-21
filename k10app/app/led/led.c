@@ -17,6 +17,7 @@
 #include <taskLib.h>
 #include <osLib.h>
 #include <dmnLib.h>
+#include <pit.h>
 /*-----------------------------------------------------------------------------
  Section: Type Definitions
  ----------------------------------------------------------------------------*/
@@ -44,6 +45,11 @@
 /*-----------------------------------------------------------------------------
  Section: Function Definitions
  ----------------------------------------------------------------------------*/
+void pit_test(void)
+{
+    clear_pitflag(0);
+    printf("test\n");
+}
 /**
  ******************************************************************************
  * @brief   流水灯任务
@@ -63,9 +69,16 @@ static void ledTask(void *p_arg)
 	if (0 >= fd)
 	{
 		printf("open gpio error\n");
-		return ;
+//		return ;
 	}
-
+	if(1 != LPLD_PIT_Init(0, 1000000, pit_test))
+	{
+	    printf("pit init error\n");
+	}
+	else
+	{
+	    printf("pit init ok\n");
+	}
 	FOREVER
 	{
 		dmn_sign(dmnid);

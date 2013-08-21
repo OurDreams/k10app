@@ -43,7 +43,7 @@
 *************************************************************************/
 //#define NO_PLL_INIT
 #define K60_CLK             1           // 使用外部时钟参考源
-#define REF_CLK             XTAL8       // 没用到，但一些宏定义需要它
+//#define REF_CLK             XTAL8       // 没用到，但一些宏定义需要它
 
 #define MCG_CLK_MHZ         PLL200      // 设置时钟频率
 #define MAX_BUS_CLK         100         // bus不要超过200M，这里设为100M
