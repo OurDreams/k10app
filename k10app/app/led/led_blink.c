@@ -65,7 +65,6 @@ static void ledTask(void *p_arg)
     uint8_t led = 0u;
 	int32_t fd = -1;
 	DMN_ID dmnid = dmn_register();
-	led_device_init();
 
 	fd = dev_open("gpio", 0);
 	if (0 >= fd)
@@ -85,6 +84,6 @@ static void ledTask(void *p_arg)
 
 void led_task_init(void)
 {
-    taskSpawn((const signed char*)"led", 3, 512, (OSFUNCPTR)ledTask,0);
+    taskSpawn((const signed char*)"led", 3, 256, (OSFUNCPTR)ledTask,0);
 }
 

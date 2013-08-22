@@ -23,6 +23,7 @@
 #include <flash.h>
 #include <flexbus.h>
 #include <wdog.h>
+#include <led.h>
 
 #if (BOARD_BUILD_VER == BOARD_MK10D)
 
@@ -163,6 +164,7 @@ void bsp_dev_init(void)
 //    start_info();
     LPLD_Flash_Init();
     hw_flexbus_init();
+    led_device_init();
 }
 
 

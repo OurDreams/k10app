@@ -24,7 +24,7 @@
 static status_t dev_led_init(struct device* dev)
 {
 	/*³õÊ¼»¯PORTE5Êä³ö1*/
-	gpio_init(PORTE, 5, 1, 1);
+	gpio_init(PORTE, 6, 1, 1);
 	return OK;
 }
 /**

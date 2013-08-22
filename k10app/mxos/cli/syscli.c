@@ -74,6 +74,18 @@ SHELL_CMD(
     reboot, CFG_MAXARGS,        do_reboot,
     "reboot \n"
 );
+
+uint32_t do_clear(cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
+{
+    printf("\033[H""\033[J");
+    return 1;
+}
+
+SHELL_CMD(
+    clear, CFG_MAXARGS,        do_clear,
+    "clear \n"
+);
+
 /**
  *******************************************************************************
  * @brief      display the information of system memory pool.
