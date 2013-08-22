@@ -70,7 +70,7 @@ enum crystal_val
    */
   #define MGG_OSC_MODE        XTAL_MODE     // EXTOSC_MODE or XTAL_MODE
   #define REF_CLK             XTAL12         // see available frequencies in osc_frequency   in mcg.h
-  #define CORE_CLK_MHZ        PLL72         // see pll_options  frequencies in              in mcg.h
+  #define CORE_CLK_MHZ        PLL100         // see pll_options  frequencies in              in mcg.h
 
 
 /*-----------------------------------------------------------------------------

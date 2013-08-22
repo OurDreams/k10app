@@ -84,6 +84,11 @@ Section: Pub Functions
       *
      */
      FB_CSPMCR = 0x10011000;
+
+     //fb clock divider 3
+      SIM_CLKDIV1 |= SIM_CLKDIV1_OUTDIV3(0x0a);
+
+
      /* FB_AD31 - FB_AD24 */
      PORTB_PCR20 = PORT_PCR_MUX(5);
      PORTB_PCR21 = PORT_PCR_MUX(5);

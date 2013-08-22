@@ -24,11 +24,13 @@ uint32_t flx_write (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
 {
     while(1)
     {
+        *CS0_START_ADDRESS = 0x00;
         *CS1_START_ADDRESS = 0x00;
         *CS2_START_ADDRESS = 0x00;
         *CS4_START_ADDRESS = 0x00;
         *CS5_START_ADDRESS = 0x00;
         taskDelay(100);
+        *CS0_START_ADDRESS = 0xff;
         *CS1_START_ADDRESS = 0xff;
         *CS2_START_ADDRESS = 0xff;
         *CS4_START_ADDRESS = 0xff;

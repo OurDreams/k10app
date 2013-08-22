@@ -19,11 +19,11 @@
  /*-----------------------------------------------------------------------------
  Section: Macro Defines
 ------------------------------------------------------------------------------*/
- #define CS0_START_ADDRESS ((uint32_t*)(0xA0000000))
- #define CS1_START_ADDRESS ((uint32_t*)(0xA1000000))
- #define CS2_START_ADDRESS ((uint32_t*)(0xA2000000))
- #define CS4_START_ADDRESS ((uint32_t*)(0xA4000000))
- #define CS5_START_ADDRESS ((uint32_t*)(0xA5000000))
+ #define CS0_START_ADDRESS ((uint8_t*)(0xA0000000))
+ #define CS1_START_ADDRESS ((uint8_t*)(0xA1000000))
+ #define CS2_START_ADDRESS ((uint8_t*)(0xA2000000))
+ #define CS4_START_ADDRESS ((uint8_t*)(0xA4000000))
+ #define CS5_START_ADDRESS ((uint8_t*)(0xA5000000))
 
  void hw_flexbus_init(void);
 
