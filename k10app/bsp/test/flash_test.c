@@ -191,8 +191,8 @@ uint32_t flash_erase (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
         }
     }
 #endif
-    Return = LPLD_Flash_SectorErase(16 * 2048);
-//    Return = LPLD_Flash_SectorErase(17 * 2048);
+//    Return = LPLD_Flash_SectorErase(16 * 2048);
+    Return = LPLD_Flash_SectorErase(17 * 2048);
     if (FLASH_OK != Return)
     {
         printf("fail flash erase\r\n");

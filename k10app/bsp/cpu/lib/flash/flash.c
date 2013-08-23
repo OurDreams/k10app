@@ -69,7 +69,10 @@ uint8_t LPLD_Flash_SectorErase(uint32_t FlashPtr)
     FTFL_FSTAT |= (FTFL_FSTAT_FPVIOL_MASK | FTFL_FSTAT_ACCERR_MASK);
 
      //µÈ´ýCCIFÖÃ1
-     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK)){};
+     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK));
+
+     for (volatile int i = 0; i < 10; i++);
+
      //Ð´ÈëÃüÁîµÀFCCOB¼Ä´æÆ÷
      FTFL_FCCOB0 = FLASH_CMD_ERSSCR;
      FTFL_FCCOB1 = (uint8_t) (FlashPtr >> 16);
