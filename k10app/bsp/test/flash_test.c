@@ -179,7 +179,7 @@ iflash_erase(uint32_t address,
 uint32_t flash_erase (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
 {
     uint8_t Return;
-//    Return = iflash_erase(16*2048, 2*2048);
+    Return = iflash_erase(16*2048, 2*2048);
 //    uint32_t size = 255 * 2048;
 //    LPLD_Flash_Init();
 #if 0

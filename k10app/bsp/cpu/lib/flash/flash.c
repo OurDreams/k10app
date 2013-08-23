@@ -70,7 +70,6 @@ uint8_t LPLD_Flash_SectorErase(uint32_t FlashPtr)
 
      //µÈ´ýCCIFÖÃ1
      while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK));
-
      for (volatile int i = 0; i < 10; i++);
 
      //Ð´ÈëÃüÁîµÀFCCOB¼Ä´æÆ÷
@@ -82,7 +81,8 @@ uint8_t LPLD_Flash_SectorErase(uint32_t FlashPtr)
      //Ö´ÐÐÃüÁî
      FTFL_FSTAT |= FTFL_FSTAT_CCIF_MASK;
      //µÈ´ýÃüÁîÍê³É
-     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK)) {};
+     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK));
+     for (volatile int i = 0; i < 10; i++);
 
      //¼ì²éFlash·ÃÎÊ´íÎó
      if (FTFL_FSTAT & FTFL_FSTAT_ACCERR_MASK)
