@@ -23,6 +23,7 @@
 #include <flash.h>
 #include <flexbus.h>
 #include <wdog.h>
+#include <pit.h>
 #include <led.h>
 
 #if (BOARD_BUILD_VER == BOARD_MK10D)
@@ -182,5 +183,25 @@ bsp_get_max_int_count(void)
     return MAX_INT_COUNT;
 }
 
+static uint32_t the_usticks = 0u;
+static void
+timer_isr(void)
+{
+    the_usticks++;
+    clear_pitflag(PIT0);
+}
+
+void
+bsp_timer_start(void)
+{
+    (void)LPLD_PIT_Init(PIT0, 100, timer_isr);
+}
+
+uint32_t
+bsp_timer_get(void)
+{
+    return the_usticks;
+}
+
 #endif
-/*----------------------------bsplib.c--------------------------------*/
+/*--------------------------------bsplib.c-----------------------------------*/

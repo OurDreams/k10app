@@ -171,6 +171,6 @@ void LPLD_PIT_Isr(void)
 
 void clear_pitflag(PITx pitx)
 {
-    PIT_TFLG0 = 1;
+    PIT_TFLG_REG(PIT_BASE_PTR, pitx) = 1;
 }
 
