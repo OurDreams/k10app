@@ -69,7 +69,9 @@ uint8_t LPLD_Flash_SectorErase(uint32_t FlashPtr)
     FTFL_FSTAT |= (FTFL_FSTAT_FPVIOL_MASK | FTFL_FSTAT_ACCERR_MASK);
 
      //等待CCIF置1
-     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK)){};
+     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK));
+     for (volatile int i = 0; i < 10; i++);
+
      //写入命令道FCCOB寄存器
      FTFL_FCCOB0 = FLASH_CMD_ERSSCR;
      FTFL_FCCOB1 = (uint8_t) (FlashPtr >> 16);
@@ -79,7 +81,8 @@ uint8_t LPLD_Flash_SectorErase(uint32_t FlashPtr)
      //执行命令
      FTFL_FSTAT |= FTFL_FSTAT_CCIF_MASK;
      //等待命令完成
-     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK)) {};
+     while (!(FTFL_FSTAT & FTFL_FSTAT_CCIF_MASK));
+     for (volatile int i = 0; i < 10; i++);
 
      //检查Flash访问错误
      if (FTFL_FSTAT & FTFL_FSTAT_ACCERR_MASK)
