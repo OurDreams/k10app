@@ -116,7 +116,6 @@ tty_init(void)
             printf("tty_create tty%d err\n", i);
         }
     }
-    UARTx[UART3]->C2 |= UART_C2_RIE_MASK;
 }
 
 /**
@@ -133,26 +132,32 @@ uart_int(tty_exparam_t *pexparam)
     uint8_t bufchar;
     uint8_t tmp = UARTx[pexparam->baseregs]->S1;
 
-//    printf("S1[%x]\n", tmp);
     //1. 接收中断
     if ((tmp & (1 << 5)) != 0)
     {
         bufchar = UARTx[pexparam->baseregs]->D;
-//        ttylib_putchar(pexparam, bufchar);
-        ttylib_putchar(pexparam, '1');
+        ttylib_putchar(pexparam, bufchar);
     }
 
     //2. 发送中断
     if ((tmp & (1 << 7)) != 0)
     {
-        if (ttylib_getchar(pexparam, &bufchar) != 0u)
+        /* 等待发送缓冲区空 */
+        while (!(UARTx[pexparam->baseregs]->S1 & UART_S1_TDRE_MASK));
+
+        while (!(!(UARTx[pexparam->baseregs]->S1 & UART_S1_TDRE_MASK)))
         {
-            UARTx[pexparam->baseregs]->D = bufchar;
-        }
-        else
-        {
-            /* 关闭发送中断 */
-            UARTx[pexparam->baseregs]->C2 &= ~UART_C2_TIE_MASK;
+            if (ttylib_getchar(pexparam, &bufchar) != 0u)
+            {
+                //发送数据
+                UARTx[pexparam->baseregs]->D = bufchar;
+            }
+            else
+            {
+                /* 关闭发送中断 */
+                UARTx[pexparam->baseregs]->C2 &= ~UART_C2_TCIE_MASK;
+                break;
+            }
         }
     }
 }
@@ -174,7 +179,7 @@ uart_txenable(tty_exparam_t *pexparam, bool_e s)
         uint8_t outchar;
         /* 等待发送缓冲区空 */
         while (!(UARTx[pexparam->baseregs]->S1 & UART_S1_TDRE_MASK));
-#if 1
+
         while (!(!(UARTx[pexparam->baseregs]->S1 & UART_S1_TDRE_MASK)))
         {
             if (ttylib_getchar(pexparam, &outchar) != 0u)
@@ -187,19 +192,12 @@ uart_txenable(tty_exparam_t *pexparam, bool_e s)
                 break;
             }
         }
-        UARTx[pexparam->baseregs]->C2 |= UART_C2_TIE_MASK;
-#else
-        if (ttylib_getchar(pexparam, &outchar) != 0u)
-        {
-            //发送数据
-            UARTx[pexparam->baseregs]->D = outchar;
-            UARTx[pexparam->baseregs]->C2 |= UART_C2_TIE_MASK;
-        }
-#endif
+        UARTx[pexparam->baseregs]->C2 |= UART_C2_TCIE_MASK;
+
     }
     else
     {
-        UARTx[pexparam->baseregs]->C2 &= ~UART_C2_TIE_MASK;
+        UARTx[pexparam->baseregs]->C2 &= ~UART_C2_TCIE_MASK;
     }
 }
 
@@ -240,7 +238,7 @@ uart_trenable(tty_exparam_t *pexparam, bool_e s)
     if (s == TRUE)
     {
         UARTx[pexparam->baseregs]->C2 |= (UART_C2_TE_MASK | UART_C2_RE_MASK);
-        UARTx[pexparam->baseregs]->C1 |= 1 << 7; //使用回环模式
+//        UARTx[pexparam->baseregs]->C1 |= 1 << 7; //fixme: 使用回环模式
     }
     else
     {

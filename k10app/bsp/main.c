@@ -76,10 +76,11 @@ static void
 rootTask(void *p_arg)
 {
     (void)p_arg;
+
     /* 1. 初始化tty设备 */
 #if (USE_TTY == 1u)
     tty_init();
-    _the_console_fd = dev_open("tty5", O_RDWR);
+    _the_console_fd = dev_open("tty3", O_RDWR);
     if (_the_console_fd <= 0)
     {
         return;

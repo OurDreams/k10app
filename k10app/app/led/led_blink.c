@@ -26,7 +26,12 @@
 /*-----------------------------------------------------------------------------
  Section: Constant Definitions
  ----------------------------------------------------------------------------*/
-/* NONE */
+ #define CS0_START_ADDRESS ((uint8_t*)(0xA0000000))
+ #define CS1_START_ADDRESS ((uint8_t*)(0xA1000000))
+ #define CS2_START_ADDRESS ((uint8_t*)(0xA2000000))
+ #define CS4_START_ADDRESS ((uint8_t*)(0xA4000000))
+ #define CS5_START_ADDRESS ((uint8_t*)(0xA5000000))
+
 /*-----------------------------------------------------------------------------
  Section: Global Variables
  ----------------------------------------------------------------------------*/
@@ -62,24 +67,20 @@ void pit_test(void)
  */
 static void ledTask(void *p_arg)
 {
-    uint8_t led = 0u;
-	int32_t fd = -1;
+    uint8_t led = 0xff;
 	DMN_ID dmnid = dmn_register();
 
-	fd = dev_open("gpio", 0);
-	if (0 >= fd)
-	{
-		printf("open gpio error\n");
-//		return ;
-	}
+
 	FOREVER
 	{
 		dmn_sign(dmnid);
-		dev_ioctl(fd, led_turn, 0);
-		taskDelay(100);
+		*CS0_START_ADDRESS = led;
+        *CS1_START_ADDRESS = led;
+        *CS2_START_ADDRESS = led;
+        *CS4_START_ADDRESS = led;
+        *CS5_START_ADDRESS = led--;
+		taskDelay(osClkRateGet()/4);
 	}
-	dev_close(fd);
-	dev_release("gpio");
 }
 
 void led_task_init(void)
