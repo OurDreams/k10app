@@ -168,10 +168,17 @@ iflash_erase(uint32_t address,
     uint8_t i;
     for (i = 16; i < 16 + (size + 2048) / 2048 ; i++)
     {
+#if 0
         if (FLASH_OK != LPLD_Flash_SectorErase(i * 2048))
         {
             return FALSE;
         }
+#else
+        if (0 != Flash_erase_sector(i))
+        {
+            return FALSE;
+        }
+#endif
     }
 
     return TRUE;
@@ -179,9 +186,19 @@ iflash_erase(uint32_t address,
 uint32_t flash_erase (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
 {
     uint8_t Return;
-    Return = iflash_erase(16*2048, 2*2048);
+
+    Flash_init();
+    if (TRUE == iflash_erase(16 * 2048, 1 * 2048))
+    {
+        printf("erase ok!\n");
+    }
+    else
+    {
+        printf("erase ERROR!\n");
+    }
 //    uint32_t size = 255 * 2048;
 //    LPLD_Flash_Init();
+    return 0;
 #if 0
     for (uint32_t i = 15; i < 16 + (size + 2048) / 2048 ; i++)
     {

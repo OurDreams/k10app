@@ -38,5 +38,11 @@ void LPLD_Flash_Init(void);
 uint8_t LPLD_Flash_SectorErase(uint32_t);
 uint8_t LPLD_Flash_ByteProgram(uint32_t, uint32_t*, uint32_t);
 
+extern void Flash_init(void);
+extern uint8_t Flash_erase_sector(uint16_t sectorNo);
+extern uint8_t Flash_read(uint16_t destaddr, uint16_t cnt, uint8_t *bBuf);
+extern uint8_t Flash_write(uint32_t destaddr, uint16_t cnt, uint8_t buf[]);
+extern uint32_t Flash_cmd_launch(void);
+
 #endif /*_FLASH_FTFL_H_*/
 
