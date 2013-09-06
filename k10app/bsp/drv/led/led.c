@@ -100,15 +100,15 @@ static int32_t dev_led_ioctl (struct device* dev, uint32_t cmd, void* arg)
 {
 	if(cmd == led_on)
 	{
-		gpio_set(PORTE, 5, 1);
+		gpio_set(PORTE, 6, 1);
 	}
 	else if( cmd == led_off)
 	{
-		gpio_set(PORTE, 5, 0);
+		gpio_set(PORTE, 6, 0);
 	}
 	else if(cmd == led_turn)
 	{
-		gpio_turn(PORTE, 5);
+		gpio_turn(PORTE, 6);
 	}
 	return OK;
 }
@@ -125,7 +125,7 @@ const static fileopt_t gpio_opt =
 
 status_t led_device_init(void)
 {
-	if (OK != dev_create("gpio", &gpio_opt, MKDEV(1, 0), NULL))
+	if (OK != dev_create("leds", &gpio_opt, MKDEV(1, 0), NULL))
     {
 	    printf("dev_create err\n");
 	    return ERROR;

@@ -67,18 +67,23 @@ void pit_test(void)
  */
 static void ledTask(void *p_arg)
 {
-    uint8_t led = 0xff;
+//    uint8_t led = 0xff;
 	DMN_ID dmnid = dmn_register();
-
+	int32_t led_fd;
+	led_fd = dev_open("leds", O_RDWR);
 
 	FOREVER
 	{
 		dmn_sign(dmnid);
+		dev_ioctl(led_fd, led_turn, 0);
+#if 0
 		*CS0_START_ADDRESS = led;
         *CS1_START_ADDRESS = led;
         *CS2_START_ADDRESS = led;
         *CS4_START_ADDRESS = led;
         *CS5_START_ADDRESS = led--;
+		taskDelay(osClkRateGet()/4);
+#endif
 		taskDelay(osClkRateGet()/4);
 	}
 }

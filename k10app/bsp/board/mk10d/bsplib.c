@@ -165,7 +165,7 @@ void bsp_dev_init(void)
 //    start_info();
     LPLD_Flash_Init();
     hw_flexbus_init();
-//    led_device_init();
+    led_device_init();
 }
 
 
