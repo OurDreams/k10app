@@ -63,6 +63,7 @@ void
 usrapp_init(void)
 {
     led_task_init();
+    wdg_task_init();
     return;
 }
 

@@ -25,6 +25,8 @@
 #include <wdog.h>
 #include <pit.h>
 #include <led.h>
+#include <relay.h>
+#include <watchdog.h>
 
 #if (BOARD_BUILD_VER == BOARD_MK10D)
 
@@ -166,6 +168,8 @@ void bsp_dev_init(void)
     LPLD_Flash_Init();
     hw_flexbus_init();
     led_device_init();
+    wdg_device_init();
+    relay_device_init();
 }
 
 

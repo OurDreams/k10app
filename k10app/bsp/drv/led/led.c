@@ -52,7 +52,7 @@ static status_t dev_led_release(struct device* dev)
  */
 static status_t  dev_led_open(struct device* dev)
 {
-	printf("gpio open\n");
+//	printf("gpio open\n");
 	return OK;
 }
 /**
