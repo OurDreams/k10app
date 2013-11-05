@@ -43,12 +43,32 @@ uint32_t uart_test (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
     gpio_init(PORTE, 2, 1, 1);
     gpio_init(PORTA, 16, 1, 1);
 
+    /*uart0 发送，uart1接收*/
     gpio_set(PORTA, 16, 1);
     taskDelay(1);
     dev_write(_the_tty0_fd, s_buff, sizeof(s_buff));
     gpio_set(PORTE, 2, 0);
     taskDelay(1);
     dev_read(_the_tty1_fd, r_buff, sizeof(s_buff));
+    for(i = 0; i < 5; i++)
+    {
+        printf("0x%x ", r_buff[i]);
+    }
+    printf("\n");
+    taskDelay(100);
+
+    /*清空r_buff*/
+    for(i = 0; i < sizeof(r_buff); i++)
+    {
+        r_buff[i] = 0x00;
+    }
+    /*uart1 发送，uart0接收*/
+    gpio_set(PORTE, 2, 1);
+    taskDelay(1);
+    dev_write(_the_tty1_fd, s_buff, sizeof(s_buff));
+    gpio_set(PORTA, 16, 0);
+    taskDelay(1);
+    dev_read(_the_tty0_fd, r_buff, sizeof(s_buff));
 
     for(i = 0; i < 5; i++)
     {

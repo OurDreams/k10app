@@ -24,6 +24,7 @@
 extern uint32_t us;
 uint32_t flx_write (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
 {
+#if 0
     while(1)
     {
         *CS0_START_ADDRESS = 0x00;
@@ -44,8 +45,9 @@ uint32_t flx_write (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
         {
             return 1;
         }
-
     }
+#endif
+    *CS0_START_ADDRESS = 0xe4;
     return 0;
 }
 SHELL_CMD(
@@ -98,18 +100,51 @@ uint32_t relay_test (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
 {
     int32_t relay_fd;
     uint8_t i = 0;
+    relay_param_t p;
     relay_fd = dev_open("relays", O_RDWR);
     if(relay_fd < 0)
     {
         printf("Open relay device errro\n\r");
         return 1;
     }
+    printf("relay testing ......!\n");
 
-    for(i = 0; i < 1; i++)
+    /*10分闸继电器跳开*/
+    p.onoff = 0;
+    for(i = 0; i <10; i++)
     {
-        dev_ioctl(relay_fd ,relay_open, &i);
+        p.num = i;
+        dev_ioctl(relay_fd , 0, (void*)&p);
         taskDelay(100);
     }
+
+    /*10分闸继电器和上*/
+    p.onoff = 1;
+    for(i = 0; i <10; i++)
+    {
+        p.num = i;
+        dev_ioctl(relay_fd , 0, (void*)&p);
+        taskDelay(100);
+    }
+
+    /*10合闸继电器跳开*/
+    p.onoff = 0;
+    for(i = 10; i <20; i++)
+    {
+        p.num = i;
+        dev_ioctl(relay_fd , 0, (void*)&p);
+        taskDelay(100);
+    }
+
+    /*10合闸继电器合上*/
+    p.onoff = 1;
+    for(i = 10; i <20; i++)
+    {
+        p.num = i;
+        dev_ioctl(relay_fd , 0, (void*)&p);
+        taskDelay(100);
+    }
+
     dev_close(relay_fd);
     return 0;
 }

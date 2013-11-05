@@ -98,6 +98,7 @@ Section: Pub Functions
      PORTC_PCR13 = PORT_PCR_MUX(5);
      PORTC_PCR14 = PORT_PCR_MUX(5);
      PORTC_PCR15 = PORT_PCR_MUX(5);
+     PORTC_PCR16 = PORT_PCR_MUX(5);
      /* FB_CS0_b FB_CS1_b FB_CS2_b FB_CS4_b Æ¬Ñ¡Òý½Å */
      PORTD_PCR1 = PORT_PCR_MUX(5);
      PORTD_PCR0 = PORT_PCR_MUX(5);

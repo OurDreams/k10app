@@ -35,6 +35,12 @@ enum relay_state
     relay_close = 1
 };
 
+typedef struct
+{
+    uint8_t num;
+    uint8_t onoff;
+} relay_param_t;
+
 extern status_t relay_device_init(void);
 
 #endif /* RELAY_H_ */

@@ -15,6 +15,7 @@
 #include <types.h>
 #include <led.h>
 #include <pit.h>
+#include <cfg.h>
 /*-----------------------------------------------------------------------------
  Section: Type Definitions
  ----------------------------------------------------------------------------*/
@@ -39,7 +40,7 @@
  Section: Global Function Prototypes
  ----------------------------------------------------------------------------*/
 extern void led_task_init(void);
-
+extern void lcd_task_init(void);
 /*-----------------------------------------------------------------------------
  Section: Function Definitions
  ----------------------------------------------------------------------------*/
@@ -64,6 +65,9 @@ usrapp_init(void)
 {
     led_task_init();
     wdg_task_init();
+#ifdef DTU_LCD
+    lcd_task_init();
+#endif
     return;
 }
 
