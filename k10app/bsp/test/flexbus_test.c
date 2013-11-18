@@ -109,6 +109,7 @@ uint32_t relay_test (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
     }
     printf("relay testing ......!\n");
 
+#if 0
     /*10·ÖÕ¢¼ÌµçÆ÷Ìø¿ª*/
     p.onoff = 0;
     for(i = 0; i <10; i++)
@@ -143,6 +144,19 @@ uint32_t relay_test (cmd_tbl_t * cmdtp, uint32_t argc, const uint8_t *argv[])
         p.num = i;
         dev_ioctl(relay_fd , 0, (void*)&p);
         taskDelay(100);
+    }
+#endif
+
+    for(i = 0; i <20; i++)
+    {
+        p.num = i;
+        p.onoff = 0;
+        dev_ioctl(relay_fd , 0, (void*)&p);
+        taskDelay(50);
+
+        p.onoff = 1;
+        dev_ioctl(relay_fd , 0, (void*)&p);
+        taskDelay(50);
     }
 
     dev_close(relay_fd);

@@ -68,6 +68,12 @@ usrapp_init(void)
 #ifdef DTU_LCD
     lcd_task_init();
 #endif
+#ifdef DTU_YX
+    yx_task_init();
+#endif
+#ifdef DTU_YK
+    yk_task_init();
+#endif
     return;
 }
 

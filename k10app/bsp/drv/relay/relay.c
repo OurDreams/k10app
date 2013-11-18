@@ -151,7 +151,7 @@ static size_t dev_relay_read (struct device* dev, int32_t pos, void *buffer, siz
  */
 static int32_t dev_relay_ioctl (struct device* dev, uint32_t cmd, void* arg)
 {
-    uint8_t i;
+//    uint8_t i;
     uint8_t temp;
 
     relay_param_t *p = (relay_param_t*)arg;
@@ -170,6 +170,7 @@ static int32_t dev_relay_ioctl (struct device* dev, uint32_t cmd, void* arg)
         *(yaokong[p->num].paddr) |= yaokong[p->num].close_val;
     }
     taskDelay(1);
+//    printf("·´½ÏÖµ£º 0x%x\n", *(yaokong[p->num].paddr));
 //    if (yaokong[p->num].paddr == CS0_START_ADDRESS)
 //    {
 //        cs0 =

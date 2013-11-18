@@ -115,7 +115,7 @@ static void ledTask(void *p_arg)
 	FOREVER
 	{
 		dmn_sign(dmnid);
-//
+
 #ifdef DTU_LCD
 		//*CS0_START_ADDRESS = 0x00;
         *CS1_START_ADDRESS = 0x00;
@@ -124,7 +124,7 @@ static void ledTask(void *p_arg)
         *CS5_START_ADDRESS = 0x00;
 		taskDelay(osClkRateGet()/4);
         //*CS0_START_ADDRESS = 0xff;
-        *CS1_START_ADDRESS = 0xffe;
+        *CS1_START_ADDRESS = 0xff;
         *CS2_START_ADDRESS = 0xff;
         *CS4_START_ADDRESS = 0xff;
         *CS5_START_ADDRESS = 0xff;
@@ -134,6 +134,11 @@ static void ledTask(void *p_arg)
 #ifdef DTU_YK
         dev_ioctl(led_fd, led_turn, 0);
 		taskDelay(osClkRateGet()/4);
+#endif
+
+#ifdef DTU_YX
+        dev_ioctl(led_fd, led_turn, 0);
+        taskDelay(osClkRateGet()/4);
 #endif
 
 //		uart_test1();

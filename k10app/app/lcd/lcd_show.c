@@ -35,8 +35,6 @@ static void lcdTask(void *p_arg)
 {
     const lcm_t* lcd_opt;
 //    DMN_ID dmnid = dmn_register();
-    gpio_init(PORTE, 19, 1, 1);
-    gpio_init(PORTD, 6, 1, 1);
 //    gpio_set(PORTE, 19, 1);
     lcm_opt()->pfn_set_backlight(TRUE);
     lcd_opt = lcm_opt();

@@ -27,6 +27,8 @@
 #include <led.h>
 #include <relay.h>
 #include <watchdog.h>
+#include <cfg.h>
+#include <yx_drv.h>
 
 #if (BOARD_BUILD_VER == BOARD_MK10D)
 
@@ -169,7 +171,12 @@ void bsp_dev_init(void)
     hw_flexbus_init();
     led_device_init();
     wdg_device_init();
+#ifdef DTU_YK
     relay_device_init();
+#endif
+#ifdef DTU_YX
+    yx_device_init();
+#endif
 }
 
 

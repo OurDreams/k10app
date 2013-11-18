@@ -19,6 +19,7 @@
 #include <lcm.h>
 #include "lcddrv.h"
 #include <lcd_wr.h>
+#include <taskLib.h>
 
 /*-----------------------------------------------------------------------------
  Section: Type Definitions
@@ -32,8 +33,8 @@
 #define SCREEN_HIGHT  160
 #define BYTES_OF_LINE 20
 #define LCD_SIZE (SCREEN_HIGHT * BYTES_OF_LINE)
-//#define INCLUDE_LCD_HY 1
-#define INCLUDE_LCD_YS 1
+#define INCLUDE_LCD_HY 1
+//#define INCLUDE_LCD_YS 1
 
 /*-----------------------------------------------------------------------------
  Section: Global Variables
@@ -205,6 +206,8 @@ uc1698_refresh_reg_hy(uint8_t contrast, bool_e isNeedCheck)
             LCD_PowerOn();
         }
     }
+
+    LCD_PowerOn();
 
     contrast = (contrast > 10u) ? 10u : contrast;
 
@@ -434,6 +437,7 @@ static const lcddrv_t the_uc1698hy_t =
 static void
 uc1698_refresh_reg_ys(uint8_t contrast, bool_e isNeedCheck)
 {
+#if 0
     if (isNeedCheck)
     {
         if (((uint8_t)(*(volatile uint8_t *)LCD_GETBASE()) & 0xB8) == 0xB8)
@@ -446,6 +450,7 @@ uc1698_refresh_reg_ys(uint8_t contrast, bool_e isNeedCheck)
             LCD_PowerOn();
         }
     }
+#endif
 
     contrast = (contrast > 10u) ? 10u : contrast;
     LCD_CMD_OUT(0xe2);
@@ -631,7 +636,8 @@ uc1698_init_ys(void)
     if (first)
     {
         first = FALSE;
-        uc1698_refresh_reg_ys(5u, FALSE);
+        LCD_PowerOn();
+        uc1698_refresh_reg_ys(5u, FALSE);  //修改对比度
         return OK;
     }
     return ERROR;

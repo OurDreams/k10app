@@ -13,6 +13,9 @@
 #include <stddef.h>
 #include <gpio.h>
 #include <flexbus.h>
+#include <stdio.h>
+#include <taskLib.h>
+
 /**
  ******************************************************************************
  * @brief       drv_lcd_getbase: get lcd base reg addr
@@ -61,5 +64,15 @@ void LCD_DATA_OUT(uint8_t data)
 
 void LCD_PowerOn(void)
 {
+    gpio_init(PORTE, 19, 1, 1);
+    gpio_init(PORTD, 6, 1, 1);
+    gpio_init(PORTE, 26, 1, 1);
+
+
     gpio_set(PORTE, 26, 0);
+    taskDelay(10);
+    gpio_set(PORTE, 26, 1);
+    taskDelay(15);
+
+//    printf("lcd power on\n");
 }
